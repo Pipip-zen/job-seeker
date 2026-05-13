@@ -1530,6 +1530,12 @@ body[data-page="detail"] .detail-page {
   gap: 18px;
 }
 
+.detail-right-rail {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+}
+
 .detail-content-card,
 .detail-side-card {
   border-radius: 24px;
@@ -1540,6 +1546,13 @@ body[data-page="detail"] .detail-page {
 .detail-side-card h2 {
   margin-bottom: 16px;
   font-size: 1.1rem;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.detail-cta-card {
+  display: grid;
+  gap: 12px;
 }
 
 .detail-list {
@@ -1573,14 +1586,16 @@ body[data-page="detail"] .detail-page {
 }
 
 .detail-side-note {
-  margin: 10px 0 0;
+  margin: 14px 0 0;
   text-align: center;
   font-size: 0.92rem;
+  line-height: 1.5;
 }
 
 .detail-cta-button,
 .detail-save-button {
   width: 100%;
+  margin: 0;
 }
 
 .detail-save-button.is-saved {
@@ -1592,7 +1607,7 @@ body[data-page="detail"] .detail-page {
 .company-overview {
   display: grid;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .company-rating {
@@ -1607,17 +1622,21 @@ body[data-page="detail"] .detail-page {
 
 .company-meta-list {
   display: grid;
-  gap: 12px;
+  gap: 16px;
 }
 
 .company-meta-list p {
   margin: 0;
   display: grid;
-  gap: 3px;
+  gap: 5px;
+  min-width: 0;
 }
 
 .company-meta-list strong {
   color: var(--text);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .detail-related-card {
@@ -1628,6 +1647,9 @@ body[data-page="detail"] .detail-page {
 .detail-related-card p {
   margin: 8px 0 0;
   color: #a7b5ca;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .detail-related-card a {

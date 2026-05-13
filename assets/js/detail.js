@@ -110,8 +110,8 @@ function renderDetailPage(root, job) {
   document.title = `${job.title} - ${job.company}`;
 
   root.innerHTML = `
-    <section class="detail-hero-band">
-      <div class="detail-hero-shell">
+    <section class="detail-hero-band px-3 px-lg-4">
+      <div class="detail-hero-shell px-0 pt-5 pt-lg-4 pb-4">
         <div class="detail-hero-header">
           <a class="detail-back-link" href="jobs.html">&lt; Back to jobs</a>
         </div>
@@ -148,8 +148,8 @@ function renderDetailPage(root, job) {
       </div>
     </section>
 
-    <section class="detail-content-shell">
-    <section class="detail-layout">
+    <section class="detail-content-shell px-3 px-lg-4 mt-4 mt-lg-5">
+    <section class="detail-layout pb-4 pb-lg-5">
       <aside class="detail-left-rail">
         <h2>Similar Positions</h2>
         <div class="similar-jobs-list">
