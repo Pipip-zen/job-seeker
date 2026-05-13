@@ -67,9 +67,17 @@ function renderDetailPage(root, job) {
           <span class="job-badge">${job.type}</span>
         </div>
         <h1 class="detail-title">${job.title}</h1>
-        <p class="detail-company">${job.company} · ${job.location}</p>
+        <p class="detail-company">${job.company} | ${job.location}</p>
         <p class="section-copy">${job.description}</p>
         <div class="detail-actions">
+          <button
+            class="button"
+            type="button"
+            data-bs-toggle="modal"
+            data-bs-target="#applySuccessModal"
+          >
+            Apply Now
+          </button>
           <button
             id="saveJobButton"
             class="button button-save ${saved ? "is-saved" : ""}"
@@ -139,6 +147,18 @@ function renderDetailPage(root, job) {
   `;
 }
 
+function bindApplyModal(job) {
+  const successText = document.getElementById("applySuccessText");
+  const successLink = document.getElementById("applySuccessLink");
+
+  if (!successText || !successLink) {
+    return;
+  }
+
+  successText.textContent = `Lamaran untuk ${job.title} di ${job.company} berhasil dikirim. Tim rekrutmen akan menghubungi kamu jika profil sesuai.`;
+  successLink.href = `jobs.html?category=${encodeURIComponent(job.category)}`;
+}
+
 function bindSaveButton(root) {
   const saveButton = root.querySelector("#saveJobButton");
 
@@ -179,6 +199,7 @@ function initDetailPage() {
   }
 
   renderDetailPage(root, job);
+  bindApplyModal(job);
   bindSaveButton(root);
 }
 

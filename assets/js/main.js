@@ -5,7 +5,21 @@ function handleSearch(event) {
   window.location.href = `jobs.html?search=${encodeURIComponent(keyword)}`;
 }
 
+function getDefaultDetailLink() {
+  if (!Array.isArray(jobs) || jobs.length === 0) {
+    return "jobs.html";
+  }
+
+  const latestJob = [...jobs].sort(
+    (left, right) => new Date(right.postedDate) - new Date(left.postedDate)
+  )[0];
+
+  return `job-detail.html?id=${latestJob.id}`;
+}
+
 function buildNavbar(currentPage) {
+  const detailLink = getDefaultDetailLink();
+
   return `
     <header class="navbar">
       <div class="container navbar-inner">
@@ -19,7 +33,7 @@ function buildNavbar(currentPage) {
         <nav class="nav-links" aria-label="Main navigation">
           <a href="index.html" class="${currentPage === "index" ? "is-active" : ""}">Home</a>
           <a href="jobs.html" class="${currentPage === "jobs" ? "is-active" : ""}">Lowongan</a>
-          <a href="job-detail.html" class="${currentPage === "detail" ? "is-active" : ""}">Detail</a>
+          <a href="${detailLink}" class="${currentPage === "detail" ? "is-active" : ""}">Detail</a>
         </nav>
       </div>
     </header>
@@ -28,6 +42,8 @@ function buildNavbar(currentPage) {
 
 function buildFooter() {
   const year = new Date().getFullYear();
+  const detailLink = getDefaultDetailLink();
+
   return `
     <footer class="site-footer">
       <div class="container footer-inner">
@@ -35,7 +51,7 @@ function buildFooter() {
         <div class="footer-links">
           <a href="index.html">Beranda</a>
           <a href="jobs.html">Semua Lowongan</a>
-          <a href="job-detail.html">Lihat Detail</a>
+          <a href="${detailLink}">Lihat Detail</a>
         </div>
       </div>
     </footer>

@@ -675,6 +675,31 @@ main {
   line-height: 1.8;
 }
 
+.apply-modal {
+  border: 1px solid var(--border-color);
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(31, 41, 55, 0.18);
+}
+
+.apply-modal-header,
+.apply-modal-footer {
+  border: none;
+}
+
+.apply-modal-header {
+  padding: 24px 24px 8px;
+}
+
+.apply-modal .modal-body {
+  padding: 8px 24px 16px;
+}
+
+.apply-modal-footer {
+  justify-content: flex-start;
+  padding: 0 24px 24px;
+}
+
 .site-footer {
   margin-top: auto;
   padding: 24px 0 40px;
