@@ -1,0 +1,26 @@
+# Agent and vibe-coding local metadata
+.agents/
+.claude/
+.codex/
+.cursor/
+.windsurf/
+.roo/
+.kiro/
+
+# Agent instruction files
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+CURSOR.md
+WINDSURF.md
+ROO.md
+KIRO.md
+
+# Local env and editor state
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
