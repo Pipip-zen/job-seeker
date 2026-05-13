@@ -3,100 +3,132 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daftar Lowongan</title>
+  <title>HireUp Jobs</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body data-page="jobs">
   <main>
-    <section class="page-header jobs-header">
-      <p class="hero-kicker jobs-kicker">Explore Roles</p>
-      <h1>Temukan lowongan yang cocok dengan ritme kerjamu.</h1>
-      <p>
-        Filter berdasarkan kategori, lokasi, dan tipe kerja. Semua hasil akan sinkron
-        dengan URL jadi mudah dibagikan atau dibuka ulang.
-      </p>
-    </section>
-
-    <section class="jobs-layout">
-      <aside class="filter-panel">
-        <div class="filter-card">
-          <div class="filter-card-head">
-            <div>
-              <p class="filter-label">Filter Panel</p>
-              <h2>Persempit pencarian</h2>
+    <section class="jobs-shell">
+      <div class="jobs-hero-shell">
+        <div class="jobs-hero-inner">
+          <div class="jobs-overview">
+            <div class="jobs-overview-left">
+              <h1 class="jobs-page-title">Find jobs built around your workflow.</h1>
+              <p class="jobs-page-copy">
+                Explore openings with compact filters, clean summaries, and cards optimized
+                for quick comparison.
+              </p>
             </div>
-            <button id="clearFilters" class="text-button" type="button">Reset</button>
           </div>
-
-          <form id="filtersForm" class="filter-form">
-            <label class="filter-group">
-              <span>Kata kunci</span>
-              <input
-                id="jobsSearch"
-                name="search"
-                class="filter-input"
-                type="search"
-                placeholder="Posisi, perusahaan, kategori"
-              >
-            </label>
-
-            <label class="filter-group">
-              <span>Kategori</span>
-              <select id="categoryFilter" name="category" class="filter-select">
-                <option value="">Semua kategori</option>
-              </select>
-            </label>
-
-            <label class="filter-group">
-              <span>Lokasi</span>
-              <select id="locationFilter" name="location" class="filter-select">
-                <option value="">Semua lokasi</option>
-              </select>
-            </label>
-
-            <label class="filter-group">
-              <span>Tipe kerja</span>
-              <select id="typeFilter" name="type" class="filter-select">
-                <option value="">Semua tipe</option>
-              </select>
-            </label>
-
-            <button class="button" type="submit">Terapkan Filter</button>
-          </form>
         </div>
+      </div>
+
+      <div class="jobs-overview-toolbar">
+        <div class="filters-title-row">
+          <div class="filters-title-group">
+            <span class="toolbar-icon toolbar-icon-filter" aria-hidden="true"></span>
+            <h2>Filters</h2>
+          </div>
+          <button id="clearFilters" class="text-button" type="button">Clear all</button>
+        </div>
+
+        <div class="jobs-summary">
+          <p id="resultsHeading" class="jobs-summary-title">0 jobs found</p>
+          <p id="resultsCount" class="results-count">Showing results based on your filters</p>
+        </div>
+
+        <label class="sort-control" for="sortSelect">
+          <span>Sort by:</span>
+          <select id="sortSelect" class="filter-select">
+            <option value="newest">Most Relevant</option>
+            <option value="salary_desc">Highest Salary</option>
+            <option value="salary_asc">Lowest Salary</option>
+            <option value="title_asc">A-Z</option>
+          </select>
+        </label>
+      </div>
+
+      <section class="jobs-layout">
+      <aside class="filter-panel">
+        <form id="filtersForm" class="filter-stack">
+          <label class="filter-search-card">
+            <span class="filter-card-label">Keyword</span>
+            <input
+              id="jobsSearch"
+              name="search"
+              class="filter-input"
+              type="search"
+              placeholder="Job title, company, category"
+            >
+          </label>
+
+          <section class="filter-card">
+            <div class="filter-section-head">
+              <h3>Job Type</h3>
+              <span class="filter-section-chevron" aria-hidden="true"></span>
+            </div>
+            <div id="typeFilterOptions" class="option-list"></div>
+          </section>
+
+          <section class="filter-card">
+            <div class="filter-section-head">
+              <h3>Salary Range</h3>
+              <span class="filter-section-chevron" aria-hidden="true"></span>
+            </div>
+            <div class="salary-range">
+              <div class="salary-range-values">
+                <span id="salaryMinLabel">$0k</span>
+                <span id="salaryMaxLabel">$0k</span>
+              </div>
+              <div class="salary-slider-visual" aria-hidden="true">
+                <span class="salary-slider-track"></span>
+                <span class="salary-slider-fill"></span>
+              </div>
+              <div class="salary-range-inputs">
+                <label class="salary-input-card">
+                  <span>Min</span>
+                  <input id="salaryMinInput" class="filter-input" type="number" min="0" step="1">
+                </label>
+                <label class="salary-input-card">
+                  <span>Max</span>
+                  <input id="salaryMaxInput" class="filter-input" type="number" min="0" step="1">
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <section class="filter-card">
+            <div class="filter-section-head">
+              <h3>Experience Level</h3>
+              <span class="filter-section-chevron" aria-hidden="true"></span>
+            </div>
+            <div id="experienceFilterOptions" class="option-list option-list-counted"></div>
+          </section>
+
+          <select id="categoryFilter" name="category" class="filter-select filter-hidden-control">
+            <option value="">Semua kategori</option>
+          </select>
+          <select id="locationFilter" name="location" class="filter-select filter-hidden-control">
+            <option value="">Semua lokasi</option>
+          </select>
+          <select id="typeFilter" name="type" class="filter-select filter-hidden-control">
+            <option value="">Semua tipe</option>
+          </select>
+        </form>
       </aside>
 
       <section class="jobs-content">
-        <div class="jobs-toolbar">
-          <div>
-            <p class="filter-label">Live Results</p>
-            <h2 id="resultsHeading" class="jobs-toolbar-title">Semua lowongan</h2>
-          </div>
-
-          <div class="jobs-toolbar-actions">
-            <p id="resultsCount" class="results-count">0 lowongan</p>
-            <label class="sort-group" for="sortSelect">
-              <span>Urutkan</span>
-              <select id="sortSelect" class="filter-select">
-                <option value="newest">Terbaru</option>
-                <option value="salary_desc">Gaji tertinggi</option>
-                <option value="salary_asc">Gaji terendah</option>
-                <option value="title_asc">A-Z</option>
-              </select>
-            </label>
-          </div>
-        </div>
-
         <div id="activeFilters" class="active-filters"></div>
         <div id="jobsContainer" class="job-grid jobs-grid"></div>
         <div id="emptyState" class="empty-state" hidden>
-          <h3>Tidak ada hasil yang cocok.</h3>
-          <p>Coba ubah kata kunci atau longgarkan filter lokasi, kategori, dan tipe kerja.</p>
+          <h3>No jobs matched your filters.</h3>
+          <p>Try broadening the keyword, salary range, or experience level.</p>
         </div>
         <nav id="pagination" class="pagination" aria-label="Jobs pagination"></nav>
+      </section>
       </section>
     </section>
   </main>

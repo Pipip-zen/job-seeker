@@ -3,43 +3,94 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JobSeeker - Cari Kerja Impianmu</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>HireUp - Find Your Dream Job</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body data-page="index">
   <main>
     <section class="hero-section">
-      <div class="container hero-content">
-        <p class="hero-kicker">Platform karier modern untuk talenta digital.</p>
-        <h1>Temukan Pekerjaan Impianmu</h1>
-        <p>Ribuan lowongan kerja menantimu di sini.</p>
-        <form class="search-form row g-2 justify-content-center mt-4" onsubmit="handleSearch(event)">
-          <input
-            id="mainSearch"
-            class="search-input"
-            type="search"
-            placeholder="Cari posisi atau perusahaan..."
-            aria-label="Cari lowongan"
-          >
-          <button class="search-button" type="submit">Cari</button>
-        </form>
+      <div class="hero-grid-overlay" aria-hidden="true"></div>
+      <div class="container hero-layout">
+        <div class="hero-copy">
+          <p class="hero-pill">Over 10,000+ jobs available</p>
+          <p class="hero-kicker">Career platform for digital talent</p>
+          <h1>Find Your <span>Dream Job</span> Here</h1>
+          <p class="hero-summary">
+            Connect with top companies and discover opportunities that match your skills,
+            passion, and career goals.
+          </p>
+
+          <form class="search-form" onsubmit="handleSearch(event)">
+            <div class="search-cluster">
+              <label class="search-field">
+                <span class="search-icon" aria-hidden="true"></span>
+                <input
+                  id="mainSearch"
+                  class="search-input"
+                  type="search"
+                  placeholder="Job title, keywords..."
+                  aria-label="Cari lowongan"
+                >
+              </label>
+              <label class="search-field search-field-secondary">
+                <span class="search-icon search-icon-pin" aria-hidden="true"></span>
+                <input
+                  class="search-input"
+                  type="text"
+                  placeholder="City, state, or remote"
+                  aria-label="Lokasi"
+                >
+              </label>
+              <button class="search-button" type="submit">Search</button>
+            </div>
+            <div class="popular-tags" aria-label="Popular tags">
+              <span class="popular-label">Popular:</span>
+              <a href="jobs.html?category=Design" class="quick-filter">Designer</a>
+              <a href="jobs.html?category=Development" class="quick-filter">Engineer</a>
+              <a href="jobs.html?type=Remote" class="quick-filter">Remote</a>
+              <a href="jobs.html?category=Marketing" class="quick-filter">Marketing</a>
+            </div>
+          </form>
+
+          <div id="indexStats" class="hero-stats" aria-label="Platform statistics"></div>
+        </div>
+
+        <aside class="hero-visual" aria-hidden="true">
+          <div class="burst-card">
+            <div class="burst-shape"></div>
+            <div class="burst-center">
+              <div class="burst-photo"></div>
+            </div>
+          </div>
+          <span class="visual-dot visual-dot-blue"></span>
+          <span class="visual-dot visual-dot-green"></span>
+          <span class="visual-dot visual-dot-yellow"></span>
+          <span class="visual-dot visual-dot-pink"></span>
+        </aside>
       </div>
     </section>
 
     <section class="featured-section">
-      <div class="container">
-        <div class="featured-heading">
-          <div>
-            <p class="hero-kicker">Featured Jobs</p>
-            <h2 class="section-heading">Lowongan pilihan untuk mulai langkah berikutnya.</h2>
+      <div class="container featured-shell">
+        <div class="featured-topbar">
+          <div class="featured-topbar-copy">
+            <p class="section-eyebrow">Featured Jobs</p>
+            <h2 class="section-heading">Discover roles matched to your skill and workflow.</h2>
           </div>
-          <a class="button button-secondary" href="jobs.html">Lihat Semua</a>
+          <a class="button button-secondary featured-link" href="jobs.html">See all jobs</a>
         </div>
-        <div id="featuredJobs" class="job-grid"></div>
+        <div class="featured-surface">
+          <div class="featured-heading">
+            <div>
+              <p class="filter-label filter-label-blue">Job board</p>
+              <h2 class="featured-title">Lowongan pilihan untuk mulai langkah berikutnya.</h2>
+            </div>
+          </div>
+          <div id="featuredJobs" class="job-grid compact-job-grid"></div>
+        </div>
       </div>
     </section>
   </main>
