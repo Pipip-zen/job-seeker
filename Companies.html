@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HireUp - Companies</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="companies">
+  <main class="pb-5">
+    <!-- Hero -->
+    <section class="companies-hero">
+      <div class="companies-hero-inner">
+        <p class="section-eyebrow">Company Directory</p>
+        <h1>Discover <span>Top Companies</span> Hiring Now</h1>
+        <p class="hero-sub">Explore culture, open roles, and find your next employer — all in one place.</p>
+
+        <!-- Search -->
+        <div class="companies-search-bar" style="padding-left:0;padding-right:0;">
+          <div class="companies-search-row">
+            <label class="search-field">
+              <span class="search-icon" aria-hidden="true" style="position:absolute;left: 30px;top:50%;transform:translateY(-50%);pointer-events:none;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(126,140,162,0.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+              </span>
+              <input id="companySearch" class="search-input" type="search" placeholder="Search company name or industry…">
+            </label>
+          </div>
+          <div class="industry-chips" id="industryChips">
+            <button class="industry-chip active" data-industry="">All Industries</button>
+            <button class="industry-chip" data-industry="Technology">Technology</button>
+            <button class="industry-chip" data-industry="Design">Design & Creative</button>
+            <button class="industry-chip" data-industry="Marketing">Marketing</button>
+            <button class="industry-chip" data-industry="Data">Data & Analytics</button>
+            <button class="industry-chip" data-industry="Infrastructure">Infrastructure</button>
+            <button class="industry-chip" data-industry="Management">Management</button>
+            <button class="industry-chip" data-industry="Support">Support</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div style="width:min(1480px, calc(100% - 48px));margin:0 auto;">
+      <!-- Stats -->
+      <div class="companies-stats" id="companiesStats"></div>
+
+      <!-- Companies Grid -->
+      <section class="companies-section">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+          <div>
+            <p class="section-eyebrow">Browse Companies</p>
+            <h2 class="section-heading" style="margin:0;">Where great careers begin.</h2>
+          </div>
+          <p id="companyCount" style="color:var(--text-soft);font-size:0.9rem;"></p>
+        </div>
+        <div class="companies-grid" id="companiesGrid"></div>
+        <div id="companiesEmpty" class="empty-state" hidden>
+          <h3>No companies matched your search.</h3>
+          <p>Try a different keyword or industry filter.</p>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="companies-cta">
+        <h2>Are you hiring?</h2>
+        <p>Post your open roles and connect with thousands of digital talent across Indonesia.</p>
+        <a href="#" class="button" aria-disabled="true">Post a Job — It's Free</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script>
+    // Build company profiles from jobs data
+    const companyProfiles = [
+      { name: "TechNova Studio", industry: "Technology", location: "Surabaya", founded: 2018, size: "51–200", desc: "A creative tech studio specialising in digital products, apps, and UI-driven experiences for startups across Southeast Asia.", featured: true },
+      { name: "CodeCraft Indonesia", industry: "Technology", location: "Jakarta", founded: 2016, size: "201–500", desc: "End-to-end software development company building robust web and mobile platforms for enterprise clients.", featured: false },
+      { name: "Nusantara Systems", industry: "Technology", location: "Bandung", founded: 2014, size: "501–1000", desc: "One of Indonesia's longest-standing backend engineering firms, trusted by banks and government agencies.", featured: true },
+      { name: "BrightWave Media", industry: "Marketing", location: "Yogyakarta", founded: 2019, size: "11–50", desc: "Performance marketing agency specialising in Meta Ads, SEO, and data-driven growth for D2C brands.", featured: false },
+      { name: "KataKita Creative", industry: "Design", location: "Malang", founded: 2020, size: "11–50", desc: "Content studio crafting brand stories, landing page copy, and social media campaigns with a strong local voice.", featured: false },
+      { name: "Insight Matrix", industry: "Data", location: "Jakarta", founded: 2017, size: "51–200", desc: "Business intelligence consultancy turning messy data into clear, actionable dashboards for mid-market companies.", featured: true },
+      { name: "Astra Digital Works", industry: "Management", location: "Bekasi", founded: 2012, size: "1000+", desc: "The digital arm of a diversified conglomerate, managing large-scale IT and digital transformation projects.", featured: false },
+      { name: "Pixel House", industry: "Design", location: "Semarang", founded: 2021, size: "11–50", desc: "Boutique design studio known for bold visual identities, motion graphics, and digital campaign assets.", featured: false },
+      { name: "BugZero Labs", industry: "Technology", location: "Depok", founded: 2019, size: "11–50", desc: "QA-as-a-service provider helping product teams ship with confidence through rigorous manual and automated testing.", featured: false },
+      { name: "SwiftByte Asia", industry: "Technology", location: "Bandung", founded: 2015, size: "201–500", desc: "Mobile-first development shop behind some of Indonesia's highest-rated consumer apps on the Play Store and App Store.", featured: true },
+      { name: "People First ID", industry: "Management", location: "Jakarta", founded: 2018, size: "51–200", desc: "HR technology company streamlining talent acquisition, onboarding, and people analytics for growing teams.", featured: false },
+      { name: "HelpDesk Pro", industry: "Support", location: "Solo", founded: 2016, size: "201–500", desc: "Customer support outsourcing firm delivering 24/7 multilingual service across voice, chat, and email channels.", featured: false },
+      { name: "Buzzline Agency", industry: "Marketing", location: "Bali", founded: 2020, size: "11–50", desc: "Social-first agency building community-driven brands with authentic content and real-time engagement strategies.", featured: false },
+      { name: "GrowthSpark Ventures", industry: "Management", location: "Tangerang", founded: 2017, size: "51–200", desc: "Business development accelerator connecting early-stage startups with enterprise clients and strategic investors.", featured: false },
+      { name: "CloudForge Tech", industry: "Infrastructure", location: "Jakarta", founded: 2015, size: "201–500", desc: "Cloud infrastructure specialists managing AWS, GCP, and hybrid deployments for fintech and healthtech platforms.", featured: true },
+    ];
+
+    function getOpenJobCount(companyName) {
+      return jobs.filter(j => j.company === companyName).length;
+    }
+
+    function getCompanyColor(name) {
+      return getBrandColor(name);
+    }
+
+    function renderStats() {
+      const total = companyProfiles.length;
+      const industries = new Set(companyProfiles.map(c => c.industry)).size;
+      const featured = companyProfiles.filter(c => c.featured).length;
+      const totalJobs = jobs.length;
+
+      document.getElementById("companiesStats").innerHTML = [
+        { val: `${total}+`, lbl: "Companies Listed" },
+        { val: `${industries}`, lbl: "Industries" },
+        { val: `${featured}`, lbl: "Featured Employers" },
+        { val: `${totalJobs}`, lbl: "Open Positions" },
+      ].map(s => `<div class="company-stat-item"><span class="val">${s.val}</span><span class="lbl">${s.lbl}</span></div>`).join("");
+    }
+
+    function renderCompanies(list) {
+      const grid = document.getElementById("companiesGrid");
+      const empty = document.getElementById("companiesEmpty");
+      const count = document.getElementById("companyCount");
+
+      if (list.length === 0) {
+        grid.innerHTML = "";
+        empty.hidden = false;
+        count.textContent = "";
+        return;
+      }
+
+      empty.hidden = true;
+      count.textContent = `Showing ${list.length} compan${list.length === 1 ? "y" : "ies"}`;
+
+      grid.innerHTML = list.map(c => {
+        const openJobs = getOpenJobCount(c.name);
+        const color = getCompanyColor(c.name);
+        const initials = getCompanyInitials(c.name);
+        const ribbon = c.featured ? `<span class="company-featured-ribbon">Top Employer</span>` : "";
+        return `
+          <div class="company-card">
+            ${ribbon}
+            <div class="company-card-header">
+              <div class="company-logo" style="background:${color}">${initials}</div>
+              <div class="company-card-meta">
+                <h3>${c.name}</h3>
+                <span class="company-industry-badge">${c.industry}</span>
+              </div>
+            </div>
+            <div class="company-location-row">
+              <svg viewBox="0 0 24 24"><path d="M12 20s5-5.6 5-9a5 5 0 1 0-10 0c0 3.4 5 9 5 9Z"/><circle cx="12" cy="11" r="1.8"/></svg>
+              ${c.location} &nbsp;·&nbsp; Founded ${c.founded} &nbsp;·&nbsp; ${c.size} employees
+            </div>
+            <p class="company-card-desc">${c.desc}</p>
+            <div class="company-card-footer">
+              <span class="company-open-jobs">${openJobs} open job${openJobs !== 1 ? "s" : ""} <span>available</span></span>
+              <a href="jobs.html?search=${encodeURIComponent(c.name)}" class="company-view-btn">View Jobs</a>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function filterCompanies() {
+      const keyword = document.getElementById("companySearch").value.trim().toLowerCase();
+      const activeChip = document.querySelector(".industry-chip.active");
+      const industry = activeChip ? activeChip.dataset.industry : "";
+
+      const filtered = companyProfiles.filter(c => {
+        const matchesKeyword = !keyword || c.name.toLowerCase().includes(keyword) || c.industry.toLowerCase().includes(keyword) || c.location.toLowerCase().includes(keyword);
+        const matchesIndustry = !industry || c.industry === industry;
+        return matchesKeyword && matchesIndustry;
+      });
+
+      renderCompanies(filtered);
+    }
+
+    // Industry chip interaction
+    document.getElementById("industryChips").addEventListener("click", e => {
+      const btn = e.target.closest(".industry-chip");
+      if (!btn) return;
+      document.querySelectorAll(".industry-chip").forEach(c => c.classList.remove("active"));
+      btn.classList.add("active");
+      filterCompanies();
+    });
+
+    document.getElementById("companySearch").addEventListener("input", filterCompanies);
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderStats();
+      renderCompanies(companyProfiles);
+    });
+  </script>
+</body>
+</html>
