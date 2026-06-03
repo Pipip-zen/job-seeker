@@ -2698,3 +2698,188 @@ body[data-page="more"] .site-main {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+
+/* ============================================================
+   RESOURCE CARD — THUMB
+   ============================================================ */
+.resource-card-thumb {
+  width: 100%;
+  height: 140px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.resource-card-thumb svg {
+  width: 36px;
+  height: 36px;
+  stroke: rgba(255, 255, 255, 0.85);
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.resource-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.resource-card-body h3 {
+  font-family: "Sora", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 8px 0 10px;
+  line-height: 1.4;
+}
+.resource-card-body p {
+  color: var(--text-soft);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  margin: 0 0 20px;
+  flex: 1;
+}
+.resource-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.resource-card-footer > span {
+  font-size: 0.82rem;
+  color: var(--text-soft);
+}
+
+/* ============================================================
+   RESOURCE BADGES
+   ============================================================ */
+.resource-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.resource-badge-blue   { background: var(--lavender);  color: var(--lavender-text); }
+.resource-badge-green  { background: var(--green);     color: var(--green-text); }
+.resource-badge-purple { background: var(--purple);    color: var(--purple-text); }
+.resource-badge-orange { background: var(--orange);    color: var(--orange-text); }
+.resource-badge-pink   { background: var(--pink);      color: var(--pink-text); }
+
+/* ============================================================
+   SALARY GUIDE SECTION
+   ============================================================ */
+.salary-guide-section {
+  padding: 56px 0 0;
+}
+.salary-guide-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 32px;
+}
+.salary-guide-card {
+  background: var(--surface);
+  border-radius: 18px;
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--shadow-soft);
+  padding: 24px 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.salary-guide-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.10);
+}
+.salary-guide-card .role {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-soft);
+  margin-bottom: 8px;
+}
+.salary-guide-card .range {
+  font-family: "Sora", sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+.salary-guide-card .sublabel {
+  font-size: 0.78rem;
+  color: var(--text-soft);
+  margin-top: 4px;
+}
+
+/* ============================================================
+   RESOURCES NEWSLETTER
+   ============================================================ */
+.resources-newsletter {
+  background: var(--bg-dark);
+  border-radius: 24px;
+  padding: 56px 48px;
+  text-align: center;
+  margin-top: 56px;
+}
+.resources-newsletter h2 {
+  font-family: "Sora", sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 12px;
+}
+.resources-newsletter p {
+  color: var(--text-soft-dark);
+  font-size: 1rem;
+  margin: 0 0 28px;
+}
+.newsletter-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.newsletter-input {
+  min-width: 280px;
+  padding: 13px 18px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.07);
+  color: #fff;
+  font-size: 0.95rem;
+  font-family: "Sora", sans-serif;
+  outline: none;
+  transition: border-color 0.18s;
+}
+.newsletter-input::placeholder { color: rgba(255,255,255,0.4); }
+.newsletter-input:focus { border-color: var(--blue); }
+.button {
+  padding: 13px 26px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--blue), var(--blue-strong));
+  color: #fff;
+  font-family: "Sora", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.18s;
+}
+.button:hover { opacity: 0.88; }
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+.empty-state {
+  padding: 48px 24px;
+  text-align: center;
+  background: var(--surface);
+  border-radius: 20px;
+  border: 1px solid var(--surface-border);
+}
+.empty-state h3 { margin: 0 0 8px; }
+.empty-state p { margin: 0; color: var(--text-soft); font-weight: 400; }
