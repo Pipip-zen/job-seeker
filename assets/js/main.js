@@ -197,9 +197,9 @@ function buildNavbar(currentPage) {
 
         <nav class="nav-menu" aria-label="Main navigation">
           <a href="jobs.html" class="${currentPage === "jobs" ? "is-active" : ""}">Find Jobs</a>
-          <a href="#" aria-disabled="true">Companies</a>
-          <a href="#" aria-disabled="true">Resources</a>
-          <a href="#" aria-disabled="true">More</a>
+          <a href="companies.html" class="${currentPage === 'companies' ? 'is-active' : ''}">Companies</a>
+          <a href="resources.html" class="${currentPage === 'resources' ? 'is-active' : ''}">Resources</a>
+          <a href="more.html" class="${currentPage === 'more' ? 'is-active' : ''}">More</a>
         </nav>
 
         <div class="nav-actions">
