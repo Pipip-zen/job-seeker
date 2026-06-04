@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HireUp - Sign In / Register</title>
+  
+  <!-- Preconnect and Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5 CSS for base layouts -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <style>
+    /* Styling variables and resets */
+    :root {
+      --primary: #2563EB;
+      --primary-dark: #1d4ed8;
+      --primary-light: #60a5fa;
+      --primary-soft: rgba(37, 99, 235, 0.15);
+      --bg-panel: #2d3133;
+      --bg-page: #f2f4f6;
+      --text-dark: #1e293b;
+      --text-muted: #737686;
+      --text-label: #334155;
+      --border-color: #e2e8f0;
+      --font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--bg-page);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      color: var(--text-dark);
+    }
+
+    /* Main Container & Card */
+    .login-container {
+      width: 100%;
+      max-width: 960px;
+      display: flex;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.08);
+      background: #ffffff;
+      min-height: 560px;
+    }
+
+    /* Left Panel - Dark & Branded */
+    .left-panel {
+      background-color: var(--bg-panel);
+      color: #ffffff;
+      padding: 48px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      flex: 1 1 420px;
+      min-height: 480px;
+    }
+
+    /* Grid Overlay background */
+    .grid-overlay {
+      position: absolute;
+      inset: 0;
+      opacity: 0.07;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
+      background-size: 24px 24px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .left-panel-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: space-between;
+      flex-grow: 1;
+    }
+
+    /* Logo Styling */
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 48px;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .logo-text {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    /* Headline Styling */
+    .headline-container {
+      margin-bottom: 32px;
+    }
+
+    .headline-container h1 {
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 1.25;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .dream-gradient {
+      background: linear-gradient(135deg, #b4c5ff, var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 800;
+    }
+
+    .tagline {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-top: 16px;
+      max-width: 340px;
+      line-height: 1.6;
+    }
+
+    /* Social Proof Stack */
+    .social-proof {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .avatar-stack {
+      display: flex;
+      position: relative;
+      width: 60px;
+      height: 32px;
+    }
+
+    .avatar-item {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--bg-panel);
+      position: absolute;
+    }
+
+    .avatar-item:nth-child(1) { background-color: #6366f1; left: 0; z-index: 3; }
+    .avatar-item:nth-child(2) { background-color: #10b981; left: 14px; z-index: 2; }
+    .avatar-item:nth-child(3) { background-color: #f59e0b; left: 28px; z-index: 1; }
+
+    .badge-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+      height: 20px;
+      padding: 0 6px;
+      border-radius: 10px;
+      background: rgba(37, 99, 235, 0.15);
+      color: #60a5fa;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .proof-subtext {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.45);
+      margin: 0;
+    }
+
+    /* Right Panel - Form */
+    .right-panel {
+      background-color: #ffffff;
+      padding: 40px 36px;
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 400px;
+      min-height: 480px;
+    }
+
+    /* Tabs Toggle */
+    .tab-toggle-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+
+    .tab-toggle {
+      display: flex;
+      background: var(--bg-page);
+      border-radius: 10px;
+      padding: 4px;
+    }
+
+    .tab-btn {
+      padding: 8px 28px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-family);
+      background: transparent;
+      color: var(--text-muted);
+      transition: all 0.25s ease;
+      text-transform: capitalize;
+    }
+
+    .tab-btn.active {
+      background: #ffffff;
+      color: var(--text-dark);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    }
+
+    /* OAuth Buttons */
+    .oauth-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .oauth-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: #ffffff;
+      cursor: pointer;
+      font-family: var(--font-family);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-dark);
+      transition: box-shadow 0.2s;
+    }
+
+    .oauth-btn:hover {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .oauth-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .oauth-google-icon {
+      color: #ea4335;
+      background: linear-gradient(135deg, #ea4335 50%, #fbbc05 50%);
+    }
+
+    .oauth-github-icon {
+      color: #333333;
+      background: #f0f0f0;
+    }
+
+    /* Divider */
+    .divider-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background-color: var(--border-color);
+    }
+
+    .divider-text {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    /* Form Fields styling */
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-label);
+      margin-bottom: 6px;
+    }
+
+    .form-input {
+      width: 100%;
+      height: 48px;
+      padding: 0 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: #ffffff;
+      font-size: 14px;
+      color: var(--text-dark);
+      font-family: var(--font-family);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      box-sizing: border-box;
+    }
+
+    .form-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+    }
+
+    /* Forgot Password / Checkbox Row */
+    .form-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      margin-top: 4px;
+    }
+
+    .forgot-link {
+      font-size: 14px;
+      color: var(--primary);
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .forgot-link:hover {
+      text-decoration: underline;
+    }
+
+    .remember-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #475569;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    /* Custom Checkbox */
+    .custom-checkbox {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border-color);
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+      flex-shrink: 0;
+      outline: none;
+    }
+
+    .custom-checkbox:checked {
+      background-color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .custom-checkbox:checked::after {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 1px;
+      width: 5px;
+      height: 10px;
+      border: solid #ffffff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    /* CTA Submit Button */
+    .submit-btn {
+      width: 100%;
+      height: 52px;
+      border-radius: 8px;
+      border: none;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font-family);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s;
+    }
+
+    .submit-btn:hover:not(:disabled) {
+      background: var(--primary-dark);
+    }
+
+    .submit-btn:disabled {
+      background: var(--primary-light);
+      cursor: not-allowed;
+    }
+
+    /* Loading Spinner */
+    .spinner {
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Transition animations */
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-slide-enter {
+      animation: fadeSlideIn 0.35s ease-out forwards;
+    }
+
+    /* Responsive styling */
+    @media (max-width: 768px) {
+      body {
+        padding: 12px;
+      }
+      
+      .login-container {
+        flex-direction: column !important;
+      }
+      
+      .left-panel {
+        flex: 1 1 auto;
+        min-height: auto;
+        padding: 32px 24px;
+      }
+      
+      .logo-container {
+        margin-bottom: 24px;
+      }
+      
+      .headline-container h1 {
+        font-size: 32px;
+      }
+      
+      .right-panel {
+        padding: 32px 24px;
+        flex: 1 1 auto;
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+<body data-page="login">
+
+  <main class="login-container">
+    
+    <!-- Left Panel - Dark Branded -->
+    <section class="left-panel">
+      <div class="grid-overlay" aria-hidden="true"></div>
+      
+      <div class="left-panel-content">
+        <!-- Top Spacer to push logo/text down -->
+        <div style="flex: 1;"></div>
+        
+        <!-- Logo -->
+        <div class="logo-container">
+          <div class="logo-icon">💼</div>
+          <span class="logo-text">HireUp</span>
+        </div>
+        
+        <!-- Headline & Tagline -->
+        <div class="headline-container">
+          <h1>Find Your <span class="dream-gradient">Dream</span> Job Here</h1>
+          <p class="tagline">
+            Connect with top companies and discover opportunities that match your skills, passion, and career goals.
+          </p>
+        </div>
+        
+        <!-- Social Proof -->
+        <div>
+          <div class="social-proof">
+            <div class="avatar-stack" aria-hidden="true">
+              <div class="avatar-item"></div>
+              <div class="avatar-item"></div>
+              <div class="avatar-item"></div>
+            </div>
+            <span class="badge-count">+2k</span>
+          </div>
+          <p class="proof-subtext">Professionals joined this week</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Panel - Form -->
+    <section class="right-panel">
+      
+      <!-- Tab Toggle -->
+      <div class="tab-toggle-container">
+        <div class="tab-toggle" role="tablist">
+          <button type="button" class="tab-btn active" id="tab-login" role="tab" aria-selected="true" onclick="switchMode('login')">Login</button>
+          <button type="button" class="tab-btn" id="tab-register" role="tab" aria-selected="false" onclick="switchMode('register')">Register</button>
+        </div>
+      </div>
+
+      <!-- OAuth Buttons -->
+      <div class="oauth-buttons">
+        <button type="button" class="oauth-btn" onclick="handleOAuth('Google')">
+          <span class="oauth-icon oauth-google-icon" aria-hidden="true">G</span>
+          Google
+        </button>
+        <button type="button" class="oauth-btn" onclick="handleOAuth('GitHub')">
+          <span class="oauth-icon oauth-github-icon" aria-hidden="true">▲</span>
+          GitHub
+        </button>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider-container">
+        <div class="divider-line"></div>
+        <span class="divider-text">OR CONTINUE WITH</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <!-- Authentication Form -->
+      <form id="auth-form" onsubmit="handleSubmit(event)" class="fade-slide-enter" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+        
+        <!-- Inputs Container -->
+        <div id="form-fields">
+          <!-- Dynamically populated fields -->
+        </div>
+
+        <!-- Form Actions Row (Checkbox / Forgot Password) -->
+        <div class="form-row" id="form-actions-row">
+          <!-- Dynamically populated row -->
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn" id="submit-btn">
+          <span id="btn-text">Sign In</span>
+        </button>
+        
+      </form>
+    </section>
+    
+  </main>
+
+  <script>
+    // State Variables
+    let currentMode = 'login';
+    let isLoading = false;
+
+    // Field configuration definitions
+    const loginFields = [
+      { name: 'email', label: 'Email', type: 'email', placeholder: 'Enter your email', required: true },
+      { name: 'password', label: 'Password', type: 'password', placeholder: 'Enter your password', required: true }
+    ];
+
+    const registerFields = [
+      { name: 'name', label: 'Full Name', type: 'text', placeholder: 'Enter your full name', required: true },
+      { name: 'email', label: 'Email', type: 'email', placeholder: 'Enter your email', required: true },
+      { name: 'password', label: 'Password', type: 'password', placeholder: 'Create a password', required: true },
+      { name: 'confirmPassword', label: 'Confirm Password', type: 'password', placeholder: 'Confirm your password', required: true }
+    ];
+
+    // Switches between Login and Register modes
+    function switchMode(mode) {
+      if (isLoading) return;
+      currentMode = mode;
+
+      // Toggle tab classes
+      const loginTab = document.getElementById('tab-login');
+      const registerTab = document.getElementById('tab-register');
+      
+      loginTab.classList.toggle('active', mode === 'login');
+      loginTab.setAttribute('aria-selected', mode === 'login');
+      registerTab.classList.toggle('active', mode === 'register');
+      registerTab.setAttribute('aria-selected', mode === 'register');
+
+      // Restart css fade-slide animation on fields container
+      const form = document.getElementById('auth-form');
+      form.classList.remove('fade-slide-enter');
+      void form.offsetWidth; // Force element reflow
+      form.classList.add('fade-slide-enter');
+
+      renderFields();
+    }
+
+    // Renders the inputs based on the current active tab mode
+    function renderFields() {
+      const fieldsContainer = document.getElementById('form-fields');
+      const actionsContainer = document.getElementById('form-actions-row');
+      const btnText = document.getElementById('btn-text');
+
+      const fields = currentMode === 'login' ? loginFields : registerFields;
+
+      // Populate input fields
+      fieldsContainer.innerHTML = fields.map(field => `
+        <div class="form-group">
+          <label for="field-${field.name}">${field.label}</label>
+          <input 
+            type="${field.type}" 
+            id="field-${field.name}" 
+            name="${field.name}" 
+            placeholder="${field.placeholder}" 
+            class="form-input" 
+            autocomplete="${field.name === 'email' ? 'email' : (field.name === 'name' ? 'name' : 'current-password')}"
+            ${field.required ? 'required' : ''}
+          >
+        </div>
+      `).join('');
+
+      // Populate action rows (Remember Me vs Forgot Password)
+      if (currentMode === 'login') {
+        actionsContainer.innerHTML = `
+          <a href="#forgot" class="forgot-link" onclick="handleForgot(event)">Forgot password?</a>
+        `;
+      } else {
+        actionsContainer.innerHTML = `
+          <label class="remember-label">
+            <input type="checkbox" name="remember" class="custom-checkbox">
+            Remember for 30 days
+          </label>
+        `;
+      }
+
+      // Update CTA button text
+      btnText.textContent = currentMode === 'login' ? 'Sign In' : 'Create Account';
+    }
+
+    // Handles OAuth simulations
+    function handleOAuth(provider) {
+      if (isLoading) return;
+      
+      isLoading = true;
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.disabled = true;
+      
+      const btnText = document.getElementById('btn-text');
+      btnText.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="spinner">
+          <circle cx="12" cy="12" r="9" stroke="white" stroke-width="3" stroke-dasharray="40 20" stroke-linecap="round" />
+        </svg>
+        Connecting...
+      `;
+
+      setTimeout(() => {
+        isLoading = false;
+        submitBtn.disabled = false;
+        btnText.textContent = currentMode === 'login' ? 'Sign In' : 'Create Account';
+
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('userName', `${provider} User`);
+        localStorage.setItem('userEmail', `${provider.toLowerCase()}user@hireup.com`);
+        
+        window.location.href = 'index.html';
+      }, 1200);
+    }
+
+    // Forgot password alert mock
+    function handleForgot(e) {
+      e.preventDefault();
+      const emailInput = document.getElementById('field-email');
+      const emailVal = emailInput ? emailInput.value.trim() : '';
+      if (!emailVal) {
+        alert('Please fill in your email address first.');
+        if (emailInput) emailInput.focus();
+      } else {
+        alert(`Reset link has been sent to ${emailVal}!`);
+      }
+    }
+
+    // Handles sign in / registration submission with delay simulation
+    function handleSubmit(e) {
+      e.preventDefault();
+      if (isLoading) return;
+
+      const form = e.target;
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      // Validation
+      if (currentMode === 'register') {
+        if (data.password !== data.confirmPassword) {
+          alert('Passwords do not match. Please double-check.');
+          const confirmInput = document.getElementById('field-confirmPassword');
+          if (confirmInput) {
+            confirmInput.value = '';
+            confirmInput.focus();
+          }
+          return;
+        }
+      }
+
+      // Enter loading state
+      isLoading = true;
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.disabled = true;
+
+      const btnText = document.getElementById('btn-text');
+      btnText.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="spinner">
+          <circle cx="12" cy="12" r="9" stroke="white" stroke-width="3" stroke-dasharray="40 20" stroke-linecap="round" />
+        </svg>
+        Please wait...
+      `;
+
+      // Simulate network request
+      setTimeout(() => {
+        isLoading = false;
+        submitBtn.disabled = false;
+        btnText.textContent = currentMode === 'login' ? 'Sign In' : 'Create Account';
+
+        // Write authentication data into localStorage
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('userEmail', data.email);
+        localStorage.setItem('userName', data.name || data.email.split('@')[0]);
+
+        // Redirect back to Home page
+        window.location.href = 'index.html';
+      }, 2000);
+    }
+
+    // Initial configuration on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      // Direct routing depending on url parameters (login.html?mode=register)
+      const urlParams = new URLSearchParams(window.location.search);
+      const modeParam = urlParams.get('mode');
+      if (modeParam === 'register' || modeParam === 'login') {
+        currentMode = modeParam;
+      }
+      
+      switchMode(currentMode);
+    });
+  </script>
+</body>
+</html>

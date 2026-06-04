@@ -184,6 +184,24 @@ function getJobCardMarkup(job, options = {}) {
 
 function buildNavbar(currentPage) {
   const detailLink = getDefaultDetailLink();
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const userName = localStorage.getItem("userName") || "User";
+
+  let actionsHtml = `<a class="nav-link-button ${currentPage === "detail" ? "is-active" : ""}" href="${detailLink}">Detail</a>`;
+
+  if (isLoggedIn) {
+    actionsHtml += `
+      <a class="nav-link-button" href="#" id="logoutBtn">Logout</a>
+      <a class="nav-avatar" href="#" aria-label="Profile" title="Profile (${userName})">
+        <span></span>
+      </a>
+    `;
+  } else {
+    actionsHtml += `
+      <a class="nav-link-button" href="login.html?mode=login">Login</a>
+      <a class="nav-register-button" href="login.html?mode=register">Register</a>
+    `;
+  }
 
   return `
     <header class="site-nav">
@@ -203,12 +221,7 @@ function buildNavbar(currentPage) {
         </nav>
 
         <div class="nav-actions">
-          <a class="nav-link-button ${currentPage === "detail" ? "is-active" : ""}" href="${detailLink}">Detail</a>
-          <a class="nav-link-button" href="#" aria-disabled="true">Login</a>
-          <a class="nav-register-button" href="#" aria-disabled="true">Register</a>
-          <a class="nav-avatar" href="#" aria-label="Profile" aria-disabled="true">
-            <span></span>
-          </a>
+          ${actionsHtml}
         </div>
       </div>
     </header>
@@ -287,6 +300,10 @@ function decoratePage() {
   }
 
   const pageName = body.dataset.page || "";
+  if (pageName === "login") {
+    return;
+  }
+
   body.classList.add("site-body");
   main.classList.add("site-main");
 
@@ -298,4 +315,16 @@ document.addEventListener("DOMContentLoaded", () => {
   decoratePage();
   renderIndexStats();
   renderFeaturedJobs();
+
+  // Handle logout
+  const logoutBtn = document.getElementById("logoutBtn");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("userName");
+      window.location.reload();
+    });
+  }
 });

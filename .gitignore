@@ -1,5 +1,6 @@
 # Agent and vibe-coding local metadata
 .agents/
+.qwen/
 .claude/
 .codex/
 .cursor/
