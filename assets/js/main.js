@@ -187,12 +187,12 @@ function buildNavbar(currentPage) {
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
   const userName = localStorage.getItem("userName") || "User";
 
-  let actionsHtml = `<a class="nav-link-button ${currentPage === "detail" ? "is-active" : ""}" href="${detailLink}">Detail</a>`;
+  let actionsHtml = "";
 
   if (isLoggedIn) {
     actionsHtml += `
       <a class="nav-link-button" href="#" id="logoutBtn">Logout</a>
-      <a class="nav-avatar" href="#" aria-label="Profile" title="Profile (${userName})">
+      <a class="nav-avatar ${currentPage === "profile" ? "is-active" : ""}" href="profile.html" aria-label="Profile" title="Profile (${userName})">
         <span></span>
       </a>
     `;

@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HireUp - Profile</title>
+  
+  <!-- Preconnect & Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Main Project Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  
+  <style>
+    /* Styling overrides for Profile Page alignment */
+    body.site-body {
+      background: #f7f9fb !important;
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+    }
+    
+    /* Main container overrides for full width hero */
+    body[data-page="profile"] .site-main {
+      width: 100% !important;
+      max-width: none !important;
+      padding: 0 !important;
+    }
+    
+    body[data-page="profile"] .hero-section {
+      margin-top: 0 !important;
+      border-radius: 0 !important;
+      background: #070707 !important; /* Unified with standard dark background (#070707) */
+      color: white !important;
+      padding: 48px 0 !important;
+      box-shadow: none !important;
+    }
+    
+    /* Navigation overrides for dark layout matching spec */
+    .site-nav {
+      background: #070707 !important; /* Unified with standard dark background (#070707) */
+      backdrop-filter: none !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .nav-row {
+      background: #070707 !important; /* Unified with standard dark background (#070707) */
+    }
+    .nav-menu a, .nav-link-button {
+      color: rgba(255, 255, 255, 0.7) !important;
+    }
+    .nav-menu a:hover, .nav-link-button:hover {
+      color: #ffffff !important;
+    }
+    .nav-menu a.is-active {
+      color: #ffffff !important;
+      border-bottom: 2px solid #2563EB;
+      padding-bottom: 4px;
+    }
+    .nav-avatar.is-active {
+      border-color: #2563EB !important;
+      background: rgba(37, 99, 235, 0.15) !important;
+    }
+
+    /* Social Proof Avatar Stack */
+    .social-proof {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .avatar-stack {
+      display: flex;
+      position: relative;
+      width: 60px;
+      height: 32px;
+    }
+    .avatar-item {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid #070707 !important; /* Matches unified dark theme background */
+      position: absolute;
+    }
+    .avatar-item:nth-child(1) { background-color: #6366f1; left: 0; z-index: 3; }
+    .avatar-item:nth-child(2) { background-color: #10b981; left: 14px; z-index: 2; }
+    .avatar-item:nth-child(3) { background-color: #f59e0b; left: 28px; z-index: 1; }
+    
+    /* Card Styles */
+    .profile-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.02);
+      transition: transform 150ms ease, box-shadow 150ms ease;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .profile-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.06);
+    }
+    
+    /* Stats Styling */
+    .stat-column {
+      text-align: center;
+      flex: 1;
+      padding: 0 10px;
+    }
+    .stat-column:not(:last-child) {
+      border-right: 1px solid #e2e8f0;
+    }
+    .stat-number {
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+    .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #737686;
+      text-transform: uppercase;
+      margin-top: 6px;
+      letter-spacing: 0.05em;
+    }
+    
+    /* Chips and tags styling */
+    .skill-chip {
+      background: #f2f4f6;
+      border-radius: 999px;
+      font-size: 13px;
+      padding: 6px 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      color: #334155;
+      transition: transform 150ms ease, background-color 150ms ease;
+      border: 1px solid transparent;
+      user-select: none;
+    }
+    .skill-chip:hover {
+      transform: scale(1.05);
+      background: #e2e8f0;
+    }
+    
+    .delete-skill-btn {
+      border: none;
+      background: none;
+      color: #94a3b8;
+      cursor: pointer;
+      font-weight: bold;
+      padding: 0;
+      font-size: 14px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+    }
+    .delete-skill-btn:hover {
+      color: #ef4444;
+    }
+    
+    .add-skill-btn {
+      background: transparent;
+      border: 1.5px dashed #cbd5e1;
+      color: #64748b;
+      border-radius: 999px;
+      font-size: 13px;
+      padding: 5px 14px;
+      cursor: pointer;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 150ms ease;
+    }
+    .add-skill-btn:hover {
+      border-color: #2563EB;
+      color: #2563EB;
+      background: rgba(37, 99, 235, 0.05);
+    }
+    
+    /* Timeline / Experience styling */
+    .experience-timeline {
+      position: relative;
+      padding-left: 36px;
+      margin-top: 10px;
+    }
+    .experience-timeline::before {
+      content: '';
+      position: absolute;
+      left: 23px;
+      top: 12px;
+      bottom: 12px;
+      width: 2px;
+      background-color: #e2e8f0;
+    }
+    
+    .timeline-entry {
+      position: relative;
+      margin-bottom: 32px;
+    }
+    .timeline-logo-container {
+      position: absolute;
+      left: -38px;
+      top: 2px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: #f8fafc;
+      border: 2px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 16px;
+      color: #ffffff;
+      z-index: 2;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+    .timeline-card-wrapper {
+      padding-left: 24px;
+      flex-grow: 1;
+    }
+    
+    .current-job-card {
+      border-left: 3px solid #2563EB !important;
+    }
+    
+    /* Inline editing styles */
+    .inline-edit-input {
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      padding: 6px 12px;
+      width: 100%;
+      font-family: inherit;
+      outline: none;
+      font-size: 14px;
+    }
+    .inline-edit-input:focus {
+      border-color: #2563EB;
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+    }
+    
+    .max-width-500 {
+      max-width: 500px;
+    }
+    
+    .fs-7 {
+      font-size: 14px;
+    }
+    .fs-8 {
+      font-size: 12px;
+    }
+    
+    .hover-primary:hover {
+      color: #2563EB !important;
+    }
+    .hover-danger:hover {
+      color: #ef4444 !important;
+    }
+    
+    /* Subtle hover scale for badges */
+    .hover-scale {
+      transition: transform 150ms ease;
+    }
+    .hover-scale:hover {
+      transform: scale(1.05);
+    }
+
+    /* Resume UI Upgrades */
+    .resume-file-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      background-color: #f8fafc;
+      transition: all 150ms ease;
+      cursor: default;
+    }
+    .resume-file-row:hover {
+      background-color: #ffffff;
+      border-color: #2563EB;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.05);
+    }
+    .pdf-icon-badge {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 10px;
+      letter-spacing: 0.02em;
+      box-shadow: 0 2px 6px rgba(239, 68, 68, 0.2);
+      flex-shrink: 0;
+    }
+    .resume-download-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #64748b;
+      transition: all 150ms ease;
+      text-decoration: none;
+    }
+    .resume-download-btn:hover {
+      background-color: #2563EB;
+      border-color: #2563EB;
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(37, 99, 235, 0.15);
+    }
+    .resume-upload-btn-header {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: #f1f5f9;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #64748b;
+      transition: all 150ms ease;
+    }
+    .resume-upload-btn-header:hover {
+      background-color: #2563EB;
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    /* Custom Toast system */
+    .custom-toast {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid #2563EB;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 280px;
+      max-width: 380px;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      font-size: 14px;
+      color: #1e293b;
+    }
+    .custom-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .custom-toast-success {
+      border-left-color: #10b981;
+    }
+    .custom-toast-error {
+      border-left-color: #ef4444;
+    }
+    .custom-toast-info {
+      border-left-color: #3b82f6;
+    }
+    .custom-toast-icon {
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+    }
+  </style>
+  
+  <script>
+    // Redirect immediately to login.html if not authenticated
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+      window.location.href = "login.html?mode=login";
+    }
+  </script>
+</head>
+<body data-page="profile">
+
+  <!-- Main Container -->
+  <main class="pb-5">
+    
+    <!-- Hero Section (dark #2d3133) -->
+    <section class="hero-section px-3 px-lg-0" style="position: relative;">
+      <div class="hero-grid-overlay" aria-hidden="true" style="opacity: 0.03; background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size: 24px 24px; position: absolute; inset: 0; pointer-events: none;"></div>
+      
+      <div class="container position-relative" style="z-index: 2;">
+        <div class="row align-items-center g-4">
+          
+          <!-- Avatar Column -->
+          <div class="col-auto">
+            <div style="position: relative; width: 100px; height: 100px;">
+              <img src="assets/img/alex_chen_avatar.png" id="profile-avatar-img" class="rounded-circle border border-3" style="width: 96px; height: 96px; border-color: #2563EB !important; object-fit: cover;" alt="User Avatar">
+            </div>
+          </div>
+          
+          <!-- User Details Column -->
+          <div class="col">
+            <!-- View Panel -->
+            <div id="hero-view-panel">
+              <div class="d-flex align-items-center flex-wrap gap-2 mb-2">
+                <h1 class="text-white m-0 fw-bold fs-2" id="profile-name">Alex Chen</h1>
+                <span class="badge hover-scale" id="open-to-work-badge" style="background: #006c49; color: white; border-radius: 999px; font-size: 11px; padding: 4px 10px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; cursor: default;">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  Open to work
+                </span>
+              </div>
+              
+              <div class="d-flex align-items-center flex-wrap gap-3 text-white-50" style="font-size: 14px;">
+                <span class="d-flex align-items-center gap-1">
+                  💼 <span id="profile-title">Senior Data Analyst</span>
+                </span>
+                <span class="d-flex align-items-center gap-1 border border-secondary rounded-pill px-2 py-0.5 hover-scale" id="profile-location-chip" style="font-size: 12px; background: rgba(255,255,255,0.05); cursor: default;">
+                  📍 <span id="profile-location">San Francisco, CA</span>
+                </span>
+              </div>
+            </div>
+            
+            <!-- Edit Panel (hidden by default) -->
+            <div id="hero-edit-panel" class="d-none">
+              <div class="row g-2 max-width-500">
+                <div class="col-md-6">
+                  <label class="form-label text-white-50 fs-8 fw-semibold mb-1">Full Name</label>
+                  <input type="text" id="edit-name" class="form-control form-control-sm bg-dark text-white border-secondary" value="">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label text-white-50 fs-8 fw-semibold mb-1">Job Title</label>
+                  <input type="text" id="edit-title" class="form-control form-control-sm bg-dark text-white border-secondary" value="">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label text-white-50 fs-8 fw-semibold mb-1">Location</label>
+                  <input type="text" id="edit-location" class="form-control form-control-sm bg-dark text-white border-secondary" value="">
+                </div>
+                <div class="col-md-6 d-flex align-items-end pb-2">
+                  <div class="form-check form-switch text-white-50">
+                    <input class="form-check-input" type="checkbox" id="edit-open-to-work">
+                    <label class="form-check-label fs-8" for="edit-open-to-work">Open to work</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Action Buttons Column -->
+          <div class="col-12 col-md-auto d-flex gap-2 justify-content-md-end">
+            <button class="btn btn-outline-light rounded-circle p-2 d-flex align-items-center justify-content-center" onclick="handleShare()" style="width: 38px; height: 38px; transition: transform 150ms ease;" id="share-btn" title="Share Profile">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+              </svg>
+            </button>
+            <button class="btn btn-primary px-3 d-flex align-items-center gap-2" id="edit-profile-btn" onclick="toggleProfileEdit()" style="background-color: #2563EB; border-color: #2563EB; font-weight: 600;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="edit-btn-icon">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+              <span id="edit-btn-text">Edit Profile</span>
+            </button>
+            <button class="btn btn-outline-secondary px-3 d-none text-white border-secondary" id="cancel-profile-btn" onclick="cancelProfileEdit()">Cancel</button>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content Area (2-Column Layout, light background) -->
+    <section class="container px-3 px-lg-0 mt-4">
+      <div class="row g-4">
+        
+        <!-- Left Sidebar (3/12) -->
+        <aside class="col-lg-3">
+          
+          <!-- Stats Card -->
+          <div class="profile-card">
+            <div class="d-flex align-items-center justify-content-between">
+              
+              <!-- Applied Stats -->
+              <div class="stat-column">
+                <div class="stat-number" style="color: #2563EB;" id="stat-applied">18</div>
+                <div class="stat-label">Applied</div>
+              </div>
+              
+              <!-- Saved Stats -->
+              <div class="stat-column">
+                <div class="stat-number" style="color: #7d4ce7;" id="stat-saved">42</div>
+                <div class="stat-label">Saved</div>
+              </div>
+              
+              <!-- Interviews Stats -->
+              <div class="stat-column">
+                <div class="stat-number" style="color: #006c49;" id="stat-interviews">5</div>
+                <div class="stat-label">Interviews</div>
+              </div>
+              
+            </div>
+          </div>
+          
+          <!-- Resume Card -->
+          <div class="profile-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h3 class="fs-7 fw-bold m-0" style="color: var(--text-dark);">Resume</h3>
+              <!-- Upload Action Button -->
+              <button class="resume-upload-btn-header" onclick="triggerResumeUpload()" title="Upload new resume">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+              </button>
+              <input type="file" id="resume-file-input" style="display: none;" onchange="handleResumeFileChange(event)">
+            </div>
+            
+            <div class="resume-file-row" style="overflow: hidden;">
+              <!-- PDF icon: red square bg with gradient -->
+              <div class="pdf-icon-badge">
+                PDF
+              </div>
+              <div class="flex-grow-1" style="min-width: 0; overflow: hidden;">
+                <div class="fw-bold fs-7" id="resume-filename" style="color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;" title="Resume_Alex_Chen.pdf">Resume_Alex_Chen.pdf</div>
+                <div class="text-muted fs-8" id="resume-updated-time">Updated 3 days ago</div>
+              </div>
+              <!-- Download Action -->
+              <a href="#" class="resume-download-btn" onclick="handleResumeDownload(event)" title="Download Resume">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+              </a>
+            </div>
+          </div>
+          
+          <!-- Skills Card -->
+          <div class="profile-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h3 class="fs-7 fw-bold m-0" style="color: var(--text-dark);">Skills</h3>
+              <!-- Edit/Manage Mode Toggle -->
+              <button class="btn btn-sm btn-link p-0 text-muted" onclick="toggleSkillsEditMode()" id="skills-edit-toggle" title="Manage Skills">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+              </button>
+            </div>
+            
+            <!-- Skill chips flow container -->
+            <div class="d-flex flex-wrap gap-2" id="skills-container">
+              <!-- Rendered Dynamically -->
+            </div>
+            
+            <!-- Add Skill trigger area -->
+            <div class="mt-3" id="add-skill-area">
+              <button class="add-skill-btn" id="add-skill-trigger-btn" onclick="showAddSkillInput()">
+                <span>+</span> Add Skill
+              </button>
+              <div id="add-skill-input-container" class="d-none">
+                <input type="text" id="add-skill-input" class="form-control form-control-sm" placeholder="Type & hit Enter..." onkeydown="handleSkillInputKeyDown(event)" onblur="hideAddSkillInput()">
+              </div>
+            </div>
+          </div>
+          
+        </aside>
+        
+        <!-- Right Main Panel (9/12) -->
+        <section class="col-lg-9">
+          
+          <!-- About Me Card -->
+          <div class="profile-card">
+            <h2 class="fs-5 fw-bold mb-3" style="color: var(--text-dark);">About Me</h2>
+            
+            <!-- View Mode -->
+            <div id="about-view" style="font-size: 15px; line-height: 1.7; color: #434655;">
+              <!-- Rendered Dynamically -->
+            </div>
+            
+            <!-- Edit Mode (textarea) -->
+            <div id="about-edit" class="d-none">
+              <textarea id="edit-about" class="form-control" rows="6" placeholder="Tell us about yourself..."></textarea>
+            </div>
+          </div>
+          
+          <!-- Experience Card -->
+          <div class="profile-card">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h2 class="fs-5 fw-bold m-0" style="color: var(--text-dark);">Experience</h2>
+              <!-- Add Experience "+" button -->
+              <button class="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center p-0" onclick="addNewExperience()" style="width: 28px; height: 28px;" title="Add Experience">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </button>
+            </div>
+            
+            <!-- Timeline Layout -->
+            <div class="experience-timeline" id="experience-timeline-container">
+              <!-- Rendered Dynamically -->
+            </div>
+          </div>
+          
+        </section>
+        
+      </div>
+    </section>
+    
+  </main>
+
+  <!-- Project Dynamic Data and Main Layout script dependencies -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/main.js"></script>
+  
+  <script>
+    // Local state storage key
+    const STORAGE_KEY = "hireup_profile_data";
+    
+    // Global Profile State variable
+    let profile = {};
+    let isEditingProfile = false;
+    let isSkillsEditMode = false;
+
+    // Load Profile Data from LocalStorage or initialize default
+    function loadProfileData() {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        try {
+          return JSON.parse(stored);
+        } catch (e) {
+          console.error("Error parsing profile data, using fallback defaults", e);
+        }
+      }
+      
+      // Fallback Profile initial values
+      const defaultProfile = {
+        name: localStorage.getItem("userName") || "Alex Chen",
+        title: "Senior Data Analyst",
+        location: "San Francisco, CA",
+        isOpenToWork: true,
+        about: "Detail-oriented and results-driven Senior Data Analyst with over 5 years of experience in translating complex datasets into actionable business insights. Proficient in Python, SQL, Tableau, and predictive modeling. Passionate about leveraging data to optimize product workflows and drive strategic decision-making.\n\nDemonstrated track record of collaborating with cross-functional teams to identify market opportunities, improve user engagement metrics, and build robust automated reporting pipelines.",
+        skills: ["Data Analysis", "Python", "SQL", "Tableau", "Machine Learning", "A/B Testing", "Excel"],
+        resumeName: "Resume_Alex_Chen.pdf",
+        resumeUpdated: "Updated 3 days ago",
+        experience: [
+          {
+            id: 1,
+            title: "Senior Data Analyst",
+            company: "Google",
+            companyInitials: "G",
+            dateRange: "Jan 2024 - Present",
+            location: "Mountain View, CA (Hybrid)",
+            bullets: [
+              "Led analysis for core Search product, improving retrieval accuracy metrics by 4.2%.",
+              "Developed automated dashboard suites in Tableau, reducing weekly report generation overhead by 12 hours.",
+              "Collaborated with engineers to design robust instrumentation and A/B test experiments for new feature rollouts."
+            ],
+            isCurrent: true
+          },
+          {
+            id: 2,
+            title: "Data Analyst",
+            company: "Microsoft",
+            companyInitials: "M",
+            dateRange: "Jun 2021 - Dec 2023",
+            location: "Redmond, WA (Remote)",
+            bullets: [
+              "Analyzed user telemetry data for Xbox Cloud Gaming to identify retention predictors, helping reduce monthly churn by 1.8%.",
+              "Queried petabyte-scale databases using SQL to build daily pipelines for key executive performance indicators.",
+              "Delivered quarterly presentations to product stakeholders, highlighting user behavior trends and retention strategies."
+            ],
+            isCurrent: false
+          }
+        ]
+      };
+      
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultProfile));
+      return defaultProfile;
+    }
+
+    // Save profile state to LocalStorage
+    function saveProfile() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
+    }
+
+    // Renders the entire profile page contents
+    function renderProfile() {
+      // 1. Hero details
+      document.getElementById('profile-name').textContent = profile.name;
+      document.getElementById('profile-title').textContent = profile.title;
+      document.getElementById('profile-location').textContent = profile.location;
+      
+      const badge = document.getElementById('open-to-work-badge');
+      if (profile.isOpenToWork) {
+        badge.classList.remove('d-none');
+      } else {
+        badge.classList.add('d-none');
+      }
+
+      // 2. Resume Card
+      const resumeEl = document.getElementById('resume-filename');
+      const resumeName = profile.resumeName || "Resume_Alex_Chen.pdf";
+      resumeEl.textContent = resumeName;
+      resumeEl.title = resumeName; // Tooltip for overflowed text
+      document.getElementById('resume-updated-time').textContent = profile.resumeUpdated || "Updated 3 days ago";
+
+      // 3. About Section
+      const aboutView = document.getElementById('about-view');
+      aboutView.innerHTML = profile.about
+        .split('\n\n')
+        .map(p => `<p class="mb-3">${p.replace(/\n/g, '<br>')}</p>`)
+        .join('');
+
+      // 4. Skills chips
+      renderSkills();
+
+      // 5. Experience Timeline
+      renderExperience();
+    }
+
+    // Renders the skill chips dynamically
+    function renderSkills() {
+      const container = document.getElementById('skills-container');
+      
+      if (!profile.skills || profile.skills.length === 0) {
+        container.innerHTML = `<span class="text-muted fs-8">No skills added yet.</span>`;
+        return;
+      }
+
+      container.innerHTML = profile.skills.map((skill, index) => {
+        const deleteBtnHtml = isSkillsEditMode 
+          ? `<button class="delete-skill-btn" onclick="deleteSkill(${index})" title="Delete Skill">&times;</button>`
+          : '';
+        return `
+          <div class="skill-chip">
+            <span>${skill}</span>
+            ${deleteBtnHtml}
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Toggles edit profile views
+    function toggleProfileEdit() {
+      const editBtn = document.getElementById('edit-profile-btn');
+      const cancelBtn = document.getElementById('cancel-profile-btn');
+      const editBtnText = document.getElementById('edit-btn-text');
+      const editBtnIcon = document.getElementById('edit-btn-icon');
+      
+      const viewPanel = document.getElementById('hero-view-panel');
+      const editPanel = document.getElementById('hero-edit-panel');
+      const aboutView = document.getElementById('about-view');
+      const aboutEdit = document.getElementById('about-edit');
+
+      if (!isEditingProfile) {
+        isEditingProfile = true;
+
+        // Set inputs in hero
+        document.getElementById('edit-name').value = profile.name;
+        document.getElementById('edit-title').value = profile.title;
+        document.getElementById('edit-location').value = profile.location;
+        document.getElementById('edit-open-to-work').checked = profile.isOpenToWork;
+
+        // Set inputs in about
+        document.getElementById('edit-about').value = profile.about;
+
+        // Toggle layout classes
+        viewPanel.classList.add('d-none');
+        editPanel.classList.remove('d-none');
+        cancelBtn.classList.remove('d-none');
+        aboutView.classList.add('d-none');
+        aboutEdit.classList.remove('d-none');
+
+        // Styles on Edit button
+        editBtnText.textContent = 'Save Profile';
+        editBtn.classList.remove('btn-primary');
+        editBtn.classList.add('btn-success');
+        editBtn.style.backgroundColor = '#10b981';
+        editBtn.style.borderColor = '#10b981';
+        editBtnIcon.innerHTML = `<polyline points="20 6 9 17 4 12"></polyline>`;
+      } else {
+        // Save field values
+        profile.name = document.getElementById('edit-name').value.trim() || profile.name;
+        profile.title = document.getElementById('edit-title').value.trim() || profile.title;
+        profile.location = document.getElementById('edit-location').value.trim() || profile.location;
+        profile.isOpenToWork = document.getElementById('edit-open-to-work').checked;
+        profile.about = document.getElementById('edit-about').value.trim() || profile.about;
+
+        // Persist updates
+        saveProfile();
+
+        // Update core display name
+        localStorage.setItem('userName', profile.name);
+
+        isEditingProfile = false;
+
+        // Toggle layouts back
+        viewPanel.classList.remove('d-none');
+        editPanel.classList.add('d-none');
+        cancelBtn.classList.add('d-none');
+        aboutView.classList.remove('d-none');
+        aboutEdit.classList.add('d-none');
+
+        // Styles back on Edit button
+        editBtnText.textContent = 'Edit Profile';
+        editBtn.classList.remove('btn-success');
+        editBtn.classList.add('btn-primary');
+        editBtn.style.backgroundColor = '#2563EB';
+        editBtn.style.borderColor = '#2563EB';
+        editBtnIcon.innerHTML = `
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+        `;
+
+        renderProfile();
+        
+        // Reload page to reflect user name updates in navbar dynamically
+        window.location.reload();
+      }
+    }
+
+    // Cancels profile editing reverting to previous state
+    function cancelProfileEdit() {
+      isEditingProfile = false;
+
+      const editBtn = document.getElementById('edit-profile-btn');
+      const cancelBtn = document.getElementById('cancel-profile-btn');
+      const editBtnText = document.getElementById('edit-btn-text');
+      const editBtnIcon = document.getElementById('edit-btn-icon');
+      
+      const viewPanel = document.getElementById('hero-view-panel');
+      const editPanel = document.getElementById('hero-edit-panel');
+      const aboutView = document.getElementById('about-view');
+      const aboutEdit = document.getElementById('about-edit');
+
+      viewPanel.classList.remove('d-none');
+      editPanel.classList.add('d-none');
+      cancelBtn.classList.add('d-none');
+      aboutView.classList.remove('d-none');
+      aboutEdit.classList.add('d-none');
+
+      editBtnText.textContent = 'Edit Profile';
+      editBtn.classList.remove('btn-success');
+      editBtn.classList.add('btn-primary');
+      editBtn.style.backgroundColor = '#2563EB';
+      editBtn.style.borderColor = '#2563EB';
+      editBtnIcon.innerHTML = `
+        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+      `;
+    }
+
+    // Share button alert
+    function handleShare() {
+      navigator.clipboard.writeText(window.location.href);
+      showCustomToast("Profile link copied to clipboard!", "success");
+    }
+
+    // Resume mock operations
+    function triggerResumeUpload() {
+      document.getElementById('resume-file-input').click();
+    }
+
+    function handleResumeFileChange(e) {
+      const file = e.target.files[0];
+      if (file) {
+        profile.resumeName = file.name;
+        profile.resumeUpdated = 'Updated just now';
+        
+        saveProfile();
+        renderProfile();
+        showCustomToast(`Resume "${file.name}" uploaded successfully!`, "success");
+      }
+    }
+
+    // Custom Download Alert
+    function handleResumeDownload(e) {
+      e.preventDefault();
+      showCustomToast(`Downloading resume: ${profile.resumeName || "Resume_Alex_Chen.pdf"}`, "info");
+    }
+
+    // Toggles the skills delete icon visual mode
+    function toggleSkillsEditMode() {
+      isSkillsEditMode = !isSkillsEditMode;
+      const btn = document.getElementById('skills-edit-toggle');
+      btn.classList.toggle('text-primary', isSkillsEditMode);
+      renderSkills();
+    }
+
+    // Add skill input field triggers
+    function showAddSkillInput() {
+      document.getElementById('add-skill-trigger-btn').classList.add('d-none');
+      const inputContainer = document.getElementById('add-skill-input-container');
+      inputContainer.classList.remove('d-none');
+      const input = document.getElementById('add-skill-input');
+      input.value = '';
+      input.focus();
+    }
+
+    function hideAddSkillInput() {
+      // Delay slightly so click on other elements does not prevent enter handling
+      setTimeout(() => {
+        document.getElementById('add-skill-trigger-btn').classList.remove('d-none');
+        document.getElementById('add-skill-input-container').classList.add('d-none');
+      }, 200);
+    }
+
+    // Handle keypress events inside the Skill input
+    function handleSkillInputKeyDown(e) {
+      if (e.key === 'Enter') {
+        const val = e.target.value.trim();
+        if (val) {
+          if (!profile.skills.includes(val)) {
+            profile.skills.push(val);
+            saveProfile();
+            renderSkills();
+          } else {
+            showCustomToast('This skill is already listed.', 'info');
+          }
+        }
+        e.target.value = '';
+        hideAddSkillInput();
+      } else if (e.key === 'Escape') {
+        hideAddSkillInput();
+      }
+    }
+
+    // Deletes a skill tag
+    function deleteSkill(index) {
+      profile.skills.splice(index, 1);
+      saveProfile();
+      renderSkills();
+    }
+
+    // Renders the Experience Timeline entries
+    function renderExperience() {
+      const container = document.getElementById('experience-timeline-container');
+      
+      if (!profile.experience || profile.experience.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-4 text-muted fs-7">
+            No work experience added yet. Click the "+" button to add entries.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = profile.experience.map(exp => {
+        const logoColor = typeof getBrandColor === 'function' ? getBrandColor(exp.company) : '#2563EB';
+        const logoText = typeof getCompanyInitials === 'function' ? getCompanyInitials(exp.company) : (exp.company ? exp.company[0] : 'C');
+
+        // Check if this experience is currently in edit mode
+        if (exp.isEditing) {
+          return `
+            <div class="timeline-entry">
+              <div class="timeline-logo-container" style="background-color: #cbd5e1; border-color: #94a3b8;">
+                📝
+              </div>
+              <div class="timeline-card-wrapper">
+                <div class="profile-card border-primary" style="background: rgba(37, 99, 235, 0.01); margin-bottom: 0;">
+                  <h4 class="fs-7 fw-bold mb-3 text-primary">Edit Experience Entry</h4>
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <label class="form-label fs-8 fw-semibold text-muted mb-1">Job Title</label>
+                      <input type="text" id="exp-title-${exp.id}" class="form-control form-control-sm" value="${exp.title || ''}" placeholder="e.g. Senior Analyst" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fs-8 fw-semibold text-muted mb-1">Company</label>
+                      <input type="text" id="exp-company-${exp.id}" class="form-control form-control-sm" value="${exp.company || ''}" placeholder="e.g. Google" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fs-8 fw-semibold text-muted mb-1">Date Range</label>
+                      <input type="text" id="exp-dates-${exp.id}" class="form-control form-control-sm" value="${exp.dateRange || ''}" placeholder="e.g. Jan 2024 - Present" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label fs-8 fw-semibold text-muted mb-1">Location</label>
+                      <input type="text" id="exp-loc-${exp.id}" class="form-control form-control-sm" value="${exp.location || ''}" placeholder="e.g. Mountain View, CA" required>
+                    </div>
+                    <div class="col-12">
+                      <label class="form-label fs-8 fw-semibold text-muted mb-1">Roles & Details (One bullet per line)</label>
+                      <textarea id="exp-bullets-${exp.id}" class="form-control form-control-sm fs-8" rows="4" placeholder="Led analysis for main product team\nBuilt dashboards in Tableau">${exp.bullets ? exp.bullets.join('\n') : ''}</textarea>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="exp-current-${exp.id}" ${exp.isCurrent ? 'checked' : ''}>
+                        <label class="form-check-label fs-8" for="exp-current-${exp.id}">This is my current job</label>
+                      </div>
+                    </div>
+                    <div class="col-12 d-flex gap-2 justify-content-end">
+                      <button class="btn btn-sm btn-outline-secondary fs-8" onclick="cancelExperienceEdit(${exp.id})">Cancel</button>
+                      <button class="btn btn-sm btn-primary fs-8" onclick="saveExperienceEdit(${exp.id})" style="background-color:#2563EB; border-color:#2563EB;">Save</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        // View Mode Card
+        const isCurrentClass = exp.isCurrent ? 'current-job-card' : '';
+        const bulletListHtml = exp.bullets && exp.bullets.length > 0 
+          ? `<ul class="mb-0 mt-2 ps-3 fs-8 text-muted" style="line-height: 1.6;">
+               ${exp.bullets.map(b => `<li class="mb-1">${b}</li>`).join('')}
+             </ul>`
+          : '';
+
+        return `
+          <div class="timeline-entry">
+            <div class="timeline-logo-container" style="background-color: ${logoColor}; border-color: ${logoColor}">
+              ${logoText}
+            </div>
+            
+            <div class="timeline-card-wrapper">
+              <div class="profile-card ${isCurrentClass}" style="margin-bottom: 0;">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <h3 class="fs-6 fw-bold mb-1" style="color: var(--text-dark);">${exp.title}</h3>
+                    <p class="mb-2 fs-7"><a href="#" class="fw-semibold hover-primary" style="color: #2563EB;" onclick="event.preventDefault();">${exp.company}</a></p>
+                  </div>
+                  <!-- Edit/Delete Action Toolbar -->
+                  <div class="d-flex gap-1">
+                    <button class="btn btn-sm btn-link p-1 text-muted hover-primary" onclick="editExperience(${exp.id})" title="Edit Entry">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 20h9"></path>
+                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                      </svg>
+                    </button>
+                    <button class="btn btn-sm btn-link p-1 text-muted hover-danger" onclick="deleteExperience(${exp.id})" title="Delete Entry">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                
+                <div class="d-flex align-items-center flex-wrap gap-2 text-muted fs-8 mb-2">
+                  <span>📅 ${exp.dateRange}</span>
+                  <span>•</span>
+                  <span>📍 ${exp.location}</span>
+                </div>
+                
+                ${bulletListHtml}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Experience editing functionality
+    function editExperience(id) {
+      const exp = profile.experience.find(e => e.id === id);
+      if (exp) {
+        exp.isEditing = true;
+        renderExperience();
+      }
+    }
+
+    // Cancels editing an experience card
+    function cancelExperienceEdit(id) {
+      const index = profile.experience.findIndex(e => e.id === id);
+      if (index !== -1) {
+        const exp = profile.experience[index];
+        // If it's a newly added experience that hasn't been saved yet, delete it
+        if (!exp.title && !exp.company) {
+          profile.experience.splice(index, 1);
+        } else {
+          delete exp.isEditing;
+        }
+        renderExperience();
+      }
+    }
+
+    // Saves experience edits
+    function saveExperienceEdit(id) {
+      const exp = profile.experience.find(e => e.id === id);
+      if (!exp) return;
+
+      const titleVal = document.getElementById(`exp-title-${id}`).value.trim();
+      const companyVal = document.getElementById(`exp-company-${id}`).value.trim();
+      const datesVal = document.getElementById(`exp-dates-${id}`).value.trim();
+      const locVal = document.getElementById(`exp-loc-${id}`).value.trim();
+      const bulletsText = document.getElementById(`exp-bullets-${id}`).value.trim();
+      const isCurrentVal = document.getElementById(`exp-current-${id}`).checked;
+
+      // Basic validation
+      if (!titleVal || !companyVal) {
+        showCustomToast('Job Title and Company Name are required.', 'error');
+        return;
+      }
+
+      // Parse bullet points
+      const bullets = bulletsText
+        .split('\n')
+        .map(b => b.trim())
+        .filter(b => b.length > 0)
+        .map(b => b.startsWith('-') ? b.substring(1).trim() : b);
+
+      // Update values
+      exp.title = titleVal;
+      exp.company = companyVal;
+      exp.dateRange = datesVal || "Jan 2024 - Present";
+      exp.location = locVal || "Remote";
+      exp.bullets = bullets;
+      exp.isCurrent = isCurrentVal;
+      
+      // Update initials
+      exp.companyInitials = typeof getCompanyInitials === 'function' ? getCompanyInitials(companyVal) : companyVal[0].toUpperCase();
+
+      // Clear edit flag
+      delete exp.isEditing;
+
+      // If this is set to current job, verify other items don't conflict (or just keep it simple)
+      if (exp.isCurrent) {
+        profile.experience.forEach(e => {
+          if (e.id !== id) e.isCurrent = false;
+        });
+      }
+
+      saveProfile();
+      renderExperience();
+    }
+
+    // Triggers adding a new experience entry at the top of the timeline
+    function addNewExperience() {
+      // Check if there is already a card in edit mode
+      const activeEdit = profile.experience.find(e => e.isEditing);
+      if (activeEdit) {
+        showCustomToast('Please save your active experience edits first.', 'info');
+        return;
+      }
+
+      const newExp = {
+        id: Date.now(),
+        title: "",
+        company: "",
+        companyInitials: "",
+        dateRange: "",
+        location: "",
+        bullets: [],
+        isCurrent: false,
+        isEditing: true
+      };
+
+      // Add to beginning
+      profile.experience.unshift(newExp);
+      renderExperience();
+      
+      // Scroll to top of timeline
+      document.getElementById('experience-timeline-container').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // Deletes an experience timeline entry using custom confirm
+    function deleteExperience(id) {
+      showCustomConfirm(
+        "Delete Experience",
+        "Are you sure you want to delete this experience entry?",
+        () => {
+          profile.experience = profile.experience.filter(e => e.id !== id);
+          saveProfile();
+          renderExperience();
+          showCustomToast("Experience entry deleted.", "success");
+        }
+      );
+    }
+
+    // Custom Modal and Toast implementation
+    let modalConfirmCallback = null;
+    let modalCancelCallback = null;
+
+    function showCustomAlert(title, message) {
+      document.getElementById('custom-modal-title').textContent = title;
+      document.getElementById('custom-modal-body').textContent = message;
+      
+      const cancelBtn = document.getElementById('custom-modal-cancel-btn');
+      cancelBtn.classList.add('d-none');
+      
+      const confirmBtn = document.getElementById('custom-modal-confirm-btn');
+      confirmBtn.textContent = 'OK';
+      confirmBtn.className = 'btn btn-sm btn-primary px-3 fs-8';
+      confirmBtn.onclick = function() {
+        closeCustomModal();
+      };
+      
+      openCustomModal();
+    }
+
+    function showCustomConfirm(title, message, onConfirm, onCancel = null) {
+      document.getElementById('custom-modal-title').textContent = title;
+      document.getElementById('custom-modal-body').textContent = message;
+      
+      const cancelBtn = document.getElementById('custom-modal-cancel-btn');
+      cancelBtn.classList.remove('d-none');
+      cancelBtn.textContent = 'Cancel';
+      
+      const confirmBtn = document.getElementById('custom-modal-confirm-btn');
+      confirmBtn.textContent = 'Delete';
+      confirmBtn.className = 'btn btn-sm btn-danger px-3 fs-8';
+      
+      modalConfirmCallback = onConfirm;
+      modalCancelCallback = onCancel;
+      
+      confirmBtn.onclick = function() {
+        if (modalConfirmCallback) modalConfirmCallback();
+        closeCustomModal();
+      };
+      
+      cancelBtn.onclick = function() {
+        if (modalCancelCallback) modalCancelCallback();
+        closeCustomModal();
+      };
+      
+      openCustomModal();
+    }
+
+    function openCustomModal() {
+      const backdrop = document.getElementById('custom-modal-backdrop');
+      const box = document.getElementById('custom-modal-box');
+      
+      backdrop.classList.remove('d-none');
+      void backdrop.offsetWidth; // force reflow
+      backdrop.style.opacity = '1';
+      box.style.transform = 'scale(1)';
+    }
+
+    function closeCustomModal() {
+      const backdrop = document.getElementById('custom-modal-backdrop');
+      const box = document.getElementById('custom-modal-box');
+      
+      backdrop.style.opacity = '0';
+      box.style.transform = 'scale(0.9)';
+      
+      setTimeout(() => {
+        backdrop.classList.add('d-none');
+      }, 200);
+    }
+
+    function showCustomToast(message, type = 'success') {
+      const container = document.getElementById('custom-toast-container');
+      const toast = document.createElement('div');
+      toast.className = `custom-toast custom-toast-${type}`;
+      
+      let icon = '✔️';
+      if (type === 'error') icon = '❌';
+      if (type === 'info') icon = 'ℹ️';
+      
+      toast.innerHTML = `
+        <span class="custom-toast-icon">${icon}</span>
+        <div style="flex-grow: 1;">${message}</div>
+        <button class="btn btn-sm btn-link p-0 text-muted fs-5" onclick="this.parentElement.remove()" style="text-decoration:none; line-height: 1;">&times;</button>
+      `;
+      
+      container.appendChild(toast);
+      void toast.offsetWidth; // force reflow
+      toast.classList.add('show');
+      
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-20px)';
+        setTimeout(() => {
+          toast.remove();
+        }, 300);
+      }, 3000);
+    }
+
+    // Initialization on page ready
+    document.addEventListener('DOMContentLoaded', () => {
+      profile = loadProfileData();
+      renderProfile();
+    });
+  </script>
+
+  <!-- Custom Modal Backdrop -->
+  <div id="custom-modal-backdrop" class="d-none" style="position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s ease;">
+    <!-- Custom Modal Box -->
+    <div id="custom-modal-box" class="profile-card" style="max-width: 400px; width: calc(100% - 32px); transform: scale(0.9); transition: transform 0.2s ease; margin-bottom: 0;">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fs-6 fw-bold m-0" id="custom-modal-title">Confirm Action</h4>
+        <button class="btn btn-sm btn-link p-0 text-muted fs-5" onclick="closeCustomModal()" style="text-decoration:none;">&times;</button>
+      </div>
+      <div class="mb-4 fs-7" id="custom-modal-body" style="color: #475569;">
+        Are you sure you want to perform this action?
+      </div>
+      <div class="d-flex gap-2 justify-content-end" id="custom-modal-footer">
+        <button class="btn btn-sm btn-outline-secondary px-3 fs-8" onclick="closeCustomModal()" id="custom-modal-cancel-btn">Cancel</button>
+        <button class="btn btn-sm btn-danger px-3 fs-8" id="custom-modal-confirm-btn">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Toast Container -->
+  <div id="custom-toast-container" style="position: fixed; bottom: 24px; right: 24px; z-index: 99999; display: flex; flex-direction: column; gap: 8px;"></div>
+</body>
+</html>
